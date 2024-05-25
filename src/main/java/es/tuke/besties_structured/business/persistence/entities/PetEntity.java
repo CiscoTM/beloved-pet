@@ -31,7 +31,7 @@ import java.util.HashSet;
 @Entity
 @NoArgsConstructor @Setter @Getter
 @Table(name = "pets")
-public class PetEntity implements Serializable{ //extends RepresentationModel<PetEntity> implements Serializable{
+public class PetEntity implements Serializable{
 
     @Id
     @Column(name="pet_id")
@@ -50,9 +50,15 @@ public class PetEntity implements Serializable{ //extends RepresentationModel<Pe
     @Enumerated(EnumType.STRING)
     private SexoEnum sexo;
 
+    @ManyToOne(targetEntity = MemberEntity.class, cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+    @JoinColumn(name = "member_id")
+    private MemberEntity member = new MemberEntity();
+
     @ManyToOne(targetEntity = TypeEntity.class, cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     @JoinColumn(name = "type_id")
     private TypeEntity tipo = new TypeEntity();
+
+
 
     @ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
     @JoinTable(name = "breed_pet",
